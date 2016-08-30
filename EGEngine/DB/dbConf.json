@@ -1,0 +1,33 @@
+{
+  "dbType": "mongoDB",
+  "mongoDB": {
+  	"connType":"multi",
+    "username": "",
+    "password": "",
+    "rwSeparate":true,
+    "hostName": [
+      "127.0.0.1",
+      "127.0.0.1",
+      "127.0.0.1"
+    ],
+    "masterName": "127.0.0.1",
+    "hostPort": 27017,
+    "database": "gameManager",
+    "options": {}
+  },
+  "mysqlDB": {
+  	"connType":"multi",
+    "username": "",
+    "password": "",
+    "rwSeparate":true,
+    "hostName": [
+      "127.0.0.1",
+      "127.0.0.1",
+      "127.0.0.1"
+    ],
+    "masterName": "127.0.0.1",
+    "hostPort": 3306,
+    "database": "testMongo",
+    "options": {}
+  }
+}
