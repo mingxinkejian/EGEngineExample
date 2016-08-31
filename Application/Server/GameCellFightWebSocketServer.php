@@ -108,6 +108,9 @@ class GameCellFightWebSocketServer extends EGWebSocketServer{
 	}
 	
 	public function onFinish($server, $taskId, $data){
-		EGLog::printLog($data);
+		if($this->_debug){
+			EGLog::printLog('Task onFinish state:'.$data);
+		}
+		
 	}
 }

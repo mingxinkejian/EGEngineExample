@@ -1,0 +1,24 @@
+{
+    "Redis": {
+        "host": [
+            "127.0.0.1"
+        ],
+        "port": 6379,
+        "isMaster": true,
+        "conType": "connect",
+        "timeout":0,
+        "auth": [],
+        "expire":3600
+    },
+    "Memcached": {
+        "host": [
+            "127.0.0.1"
+        ],
+        "port": 6379,
+        "isMaster": true,
+        "conType": "pconnect",
+        "timeout":0,
+        "auth": [],
+        "expire":3600
+    }
+}

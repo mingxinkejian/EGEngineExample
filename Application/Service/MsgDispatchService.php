@@ -31,7 +31,7 @@ class MsgDispatchService {
 			$response=$this->packErrorDataMsg();
 			$response->_userInfo = $request;
 			$response->_serialize($serialData);
-			
+			$serialData['pId'] = -1;
 			return $this->packData('RET_MSG_ERR',$serialData);
 		}
 		
@@ -39,7 +39,7 @@ class MsgDispatchService {
 			$response=$this->packErrorDataMsg();
 			$response->_userInfo = $request;
 			$response->_serialize($serialData);
-			
+			$serialData['pId'] = -1;
 			return $this->packData('RET_MSG_ERR',$serialData);
 		}
 		
@@ -47,7 +47,7 @@ class MsgDispatchService {
 			$response=$this->packErrorDataMsg();
 			$response->_userInfo = $request;
 			$response->_serialize($serialData);
-			
+			$serialData['pId'] = -1;
 			return $this->packData('RET_MSG_ERR',$serialData);
 		}
 		$unserialData = $reqMsgObj;

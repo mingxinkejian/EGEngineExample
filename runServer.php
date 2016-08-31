@@ -1,6 +1,5 @@
 <?php
 use Core\EGLoader;
-use ConfigReader\EGJson;
 use Log\EGLog;
 use Application\Server\GameCellFightWebSocketServer;
 use Cache\EGCacheFactory;
@@ -10,6 +9,7 @@ use Application\Common\GameWroldManager;
 use Application\Controller\MsgDispatcher;
 use ConfigReader\EGIni;
 use Core\EGRunTime;
+use ConfigReader\EGJson;
 if (version_compare ( PHP_VERSION, '5.4.0', '<' ))
 	die ( 'require PHP > 5.4.0 !' );
 
@@ -23,17 +23,20 @@ require WEB_ROOT.'EGEngine'.DS.'requireEGEngine.php';
 EGLoader::addNameSpace('Application', APPROOT);
 
 function initServer(){
+	//日志目录
+	$logRoot=WEB_ROOT.'Runtime'.DS;
+	EGLog::setConfig($logRoot);
+	
 	//服务器所需配置
 	$configPath = WEB_ROOT. 'serverConf.ini';
 	$configData = EGIni::parse ( $configPath ,true);
-	$logRoot=WEB_ROOT.'Runtime'.DS;
-	EGLog::setConfig($logRoot);
 	$wsServer = new GameCellFightWebSocketServer( $configData['webSocketServer']['host'], $configData['webSocketServer']['port'] ,false);
 	$wsServer->loadConfig ( $configData ['webSocketServer'] );
 	$wsServer->setDebug($configData['Debug']['isDebug']);
 	$wsServer->setWebRoot ( WEB_ROOT );
+	
 	//长连接redis
-	$configPath = WEB_ROOT.'EGEngine'.DS. 'Cache' . DS . 'cacheConfig.json';
+	$configPath = WEB_ROOT. 'cacheConf.json';
 	$jsonConfData = EGJson::parse ( $configPath );
 	$redis=EGCacheFactory::getInstance($jsonConfData ['Redis']);
 	
@@ -45,9 +48,9 @@ function initServer(){
 
 function initConfig(){
 	//应用配置
-	$appConfig=APPROOT.'Conf'.DS.'config.php';
-	$appConfig=require $appConfig;
-	ConfigManager::getInstance()->addConfig($appConfig);
+	$appConfig = APPROOT.'Conf'.DS.'config.php';
+	$appConfig = require_once $appConfig;
+	ConfigManager::getInstance()->addAppConfig($appConfig);
 }
 function initGameWorld(){
 	MsgDispatcher::getInstance();
