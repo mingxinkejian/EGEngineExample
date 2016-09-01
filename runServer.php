@@ -10,6 +10,7 @@ use Application\Controller\MsgDispatcher;
 use ConfigReader\EGIni;
 use Core\EGRunTime;
 use ConfigReader\EGJson;
+use Extension\EGSockBuffer;
 if (version_compare ( PHP_VERSION, '5.4.0', '<' ))
 	die ( 'require PHP > 5.4.0 !' );
 
@@ -79,6 +80,9 @@ function main(){
 	initGameWorld();
 	$runTime->stop();
 	echo "---------finish load gameWrold | spend time:".$runTime->getRunTime()."--------".PHP_EOL;
+	
+	EGSockBuffer::testBuffer();
+	return ;
 	//启动服务器
 	$server->startServer();
 }

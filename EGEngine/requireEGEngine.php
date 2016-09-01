@@ -10,6 +10,7 @@ EGLoader::addNameSpace('Cache', $REQUIRE_PATH.'Cache');
 EGLoader::addNameSpace('Core', $REQUIRE_PATH.'Core');
 EGLoader::addNameSpace('DataModel', $REQUIRE_PATH.'DataModel');
 EGLoader::addNameSpace('Exception', $REQUIRE_PATH.'Exception');
+EGLoader::addNameSpace('Extension', $REQUIRE_PATH.'Extension');
 EGLoader::addNameSpace('DB', $REQUIRE_PATH.'DB');
 EGLoader::addNameSpace('Server', $REQUIRE_PATH.'Server');
 EGLoader::addNameSpace('Log', $REQUIRE_PATH.'Log');
