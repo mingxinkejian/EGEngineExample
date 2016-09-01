@@ -93,7 +93,7 @@ class EGSockBuffer {
 		$bytes = $this->readBytes(8);
 		
 		if ($this->_endian == EGSockBuffer::SOCKBUFFER_BIG){
-			list ($hi,$lo) = array_values(strrev(unpack('N*N*',$bytes)));
+			list ($hi,$lo) = array_values(unpack('N*N*',strrev($bytes)));
 		}else{
 			list ($hi,$lo) = array_values(unpack('N*N*',$bytes));
 		}
@@ -137,17 +137,17 @@ class EGSockBuffer {
 		return $result[1];
 	}
 	
-// 	public function readUint64(){
-// 		$bytes = $this->readBytes(8);
-// 		if ($this->_endian == EGSockBuffer::SOCKBUFFER_BIG){
-// 			list ($hi,$lo) = array_values(unpack('N*N*',$bytes));
-// 			$lo << 32;
-// 		}else{
-// 			list ($hi,$lo) = array_values(unpack('N*N*',$bytes));
-// 			$hi << 32;
-// 		}
-// 		return ($hi << 32) + $lo;
-// 	}
+	public function readUint64(){
+		$bytes = $this->readBytes(8);
+		if ($this->_endian == EGSockBuffer::SOCKBUFFER_BIG){
+			list ($hi,$lo) = array_values(unpack('NN',$bytes));
+			$lo << 32;
+		}else{
+			list ($hi,$lo) = array_values(unpack('N*N*',$bytes));
+			$hi << 32;
+		}
+		return ($hi << 32) + $lo;
+	}
 	/**
 	 * test ok
 	 * @return Ambigous <>
@@ -180,13 +180,12 @@ class EGSockBuffer {
 	 */
 	public function readString(){
 		$len = $this->readUint32();
-        if($len <=0){  
-            return false;  
+        if($len <=0){
+            return false;
         }
         
         $bytes = $this->readBytes($len);
-        $key = '/a'. $len;  
-        $result = unpack('@' . $this->_rPos . $key, $bytes);  
+        $result = unpack('a*', $bytes);
         return $result[1];
 	}
 	/**
@@ -216,9 +215,9 @@ class EGSockBuffer {
 	 */
 	public function writeInt64($value){
 		if ($this->_endian == EGSockBuffer::SOCKBUFFER_BIG){
-			$this->writeBytes(strrev(pack('NN',$value >> 32,$value&0xFFFFFFFF)));
+			$this->writeBytes(strrev(pack('N*N*',$value >> 32,$value&0xFFFFFFFF)));
 		}else{
-			$this->writeBytes(pack('NN',$value >> 32,$value&0xFFFFFFFF));
+			$this->writeBytes(pack('N*N*',$value >> 32,$value&0xFFFFFFFF));
 		}
 	}
 	/**
@@ -251,21 +250,21 @@ class EGSockBuffer {
 			$this->writeBytes(pack('V', $value));
 		}
 	}
-// 	/**
-// 	 * 
-// 	 * @param unknown $value
-// 	 */
-// 	public function writeUint64($value){
+	/**
+	 * 
+	 * @param unknown $value
+	 */
+	public function writeUint64($value){
 		
-// 		$h = ($value & 0xFFFFFFFF00000000) >> 32;
-// 		$l = $value & 0xFFFFFFFF;
+		$h = ($value & 0xFFFFFFFF00000000) >> 32;
+		$l = $value & 0xFFFFFFFF;
 		
-// 		if ($this->_endian == EGSockBuffer::SOCKBUFFER_BIG){
-// 			$this->writeBytes(pack('N*N*', $l, $h));
-// 		}else{
-// 			$this->writeBytes(pack('N*N*', $h, $l));
-// 		}		
-// 	}
+		if ($this->_endian == EGSockBuffer::SOCKBUFFER_BIG){
+			$this->writeBytes(pack('NN', $l, $h));
+		}else{
+			$this->writeBytes(pack('NN', $h, $l));
+		}		
+	}
 	/**
 	 * test ok
 	 * @return Ambigous <>
@@ -308,7 +307,7 @@ class EGSockBuffer {
 		$sockBuff->writeInt8(127);
 		$sockBuff->writeInt16(-32768);
 		$sockBuff->writeInt32(-2147483648);
-		$sockBuff->writeInt64 (9223372036854775807);
+		$sockBuff->writeInt64 (9223372036854775800);
 		$sockBuff->writeUint8(255);
 		$sockBuff->writeUint16(1000);
 		$sockBuff->writeUint32(4294967295);		
