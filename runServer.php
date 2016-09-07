@@ -81,8 +81,8 @@ function main(){
 	$runTime->stop();
 	echo "---------finish load gameWrold | spend time:".$runTime->getRunTime()."--------".PHP_EOL;
 	
-	EGSockBuffer::testBuffer();
-	return ;
+// 	EGSockBuffer::testBuffer();
+// 	return ;
 	//启动服务器
 	$server->startServer();
 }
